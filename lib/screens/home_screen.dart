@@ -1,27 +1,48 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_app_flutter/widgets/bottom_nav_bar.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+import 'package:todo_app_flutter/screens/app_signin_screen.dart';
+import 'package:todo_app_flutter/services/auth.dart';
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({
+    Key? key,
+    required this.auth,
+    required this.onSignOut,
+  }) : super(key: key);
 
-class _HomeScreenState extends State<HomeScreen> {
+  final AuthBase auth;
+  final VoidCallback onSignOut;
+  // User? _user;
+
+Future<void> _signOut() async {
+    try {
+      await auth.signOut();
+      onSignOut();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+   return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // title: Text(widget.title),
+        title: Text('Home Page'),
+        actions: <Widget>[
+          TextButton(
+            child: Text(
+              'Logout',
+              style: TextStyle(
+                fontSize: 18.0,
+                color: Colors.white,
+              ),
+            ),
+            onPressed: _signOut,
+          ),
+        ],
       ),
-      body: const Center(
-        child: Text(
-          'Home Screen'
-        ),
-      ),
-      bottomNavigationBar: const CustomBottomNavBar(),
-    );  
+    );
   }
 }

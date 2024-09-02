@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:todo_app_flutter/screens/landing_page.dart';
 import 'package:todo_app_flutter/screens/splash_screen.dart';
-// import 'package:todo_app_flutter/widgets/bottom_nav_bar.dart';
-// import 'package:todo_app_flutter/widgets/custom_drawer.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:todo_app_flutter/services/auth.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -32,10 +38,12 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 119, 203, 59)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 22, 66, 113)),
         useMaterial3: true,
       ),
-      home: SplashScreen(),
+      home: LandingPage(
+        auth: Auth(),
+      ),
     );  
   }
 }
